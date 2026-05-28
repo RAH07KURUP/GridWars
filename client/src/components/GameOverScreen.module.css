@@ -1,0 +1,92 @@
+.wrap {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.88);
+  z-index: 20;
+  animation: fadeIn 0.4s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.card {
+  background: #0d0d1c;
+  border: 1px solid #2a2a44;
+  padding: 36px 32px;
+  text-align: center;
+  min-width: 280px;
+  box-shadow: 0 0 80px rgba(0,0,0,0.8);
+}
+
+.trophy {
+  font-size: 48px;
+  margin-bottom: 12px;
+  animation: pop 0.5s cubic-bezier(0.36,0.07,0.19,0.97);
+}
+
+@keyframes pop {
+  0% { transform: scale(0); }
+  60% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+.title {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 18px;
+  margin: 0 0 24px;
+  text-shadow: 0 0 20px currentColor;
+}
+
+.scoreboard {
+  margin-bottom: 20px;
+  border: 1px solid #1a1a2e;
+  overflow: hidden;
+}
+
+.scoreHeader {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 7px;
+  color: #444;
+  padding: 8px;
+  background: #07070f;
+  letter-spacing: 1px;
+}
+
+.scoreRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-top: 1px solid #111;
+}
+
+.rank {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 8px;
+  color: #555;
+  width: 24px;
+}
+
+.scoreName {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 8px;
+  flex: 1;
+  text-align: left;
+}
+
+.scoreVal {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 10px;
+  color: #ffcc00;
+}
+
+.returning {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 7px;
+  color: #333;
+}

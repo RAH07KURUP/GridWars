@@ -1,0 +1,55 @@
+.pad {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px;
+  background: #08080f;
+  border-top: 1px solid #1a1a2e;
+  gap: 20px;
+}
+
+.dpad {
+  position: relative;
+  width: 130px;
+  height: 130px;
+}
+
+.dBtn {
+  position: absolute;
+  width: 42px;
+  height: 42px;
+  background: #1a1a2e;
+  border: 1px solid #333;
+  color: #888;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 4px;
+  touch-action: none;
+  -webkit-tap-highlight-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dBtn:active { background: #2a2a44; color: #fff; }
+
+.up    { top: 0;   left: 44px; }
+.down  { bottom: 0; left: 44px; }
+.left  { top: 44px; left: 0; }
+.right { top: 44px; right: 0; }
+
+.bombBtn {
+  width: 70px;
+  height: 70px;
+  background: #3a0a0a;
+  border: 2px solid #ff4444;
+  border-radius: 50%;
+  font-size: 28px;
+  cursor: pointer;
+  touch-action: none;
+  -webkit-tap-highlight-color: transparent;
+  box-shadow: 0 0 20px rgba(255,68,68,0.3);
+  transition: transform 0.1s;
+}
+
+.bombBtn:active { transform: scale(0.92); background: #550000; }

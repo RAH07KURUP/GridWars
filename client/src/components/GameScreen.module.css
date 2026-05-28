@@ -1,0 +1,21 @@
+.wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: #06060f;
+  padding: 16px;
+}
+
+.gameBox {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #2a2a44;
+  box-shadow: 0 0 60px rgba(68,68,200,0.1);
+  overflow: hidden;
+}
+
+.canvasWrap {
+  position: relative;
+  line-height: 0;
+}
