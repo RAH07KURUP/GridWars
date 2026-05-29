@@ -16,14 +16,17 @@ const SPAWN_POINTS = [
   { gx: 1, gy: ROWS - 2 },
   { gx: COLS - 2, gy: ROWS - 2 },
 ];
-const SAFE_ZONES: Set<string>[] = SPAWN_POINTS.map(({ gx, gy }) =>
-  new Set([
+const SAFE_ZONES: Set<string>[] = SPAWN_POINTS.map(({ gx, gy }) => {
+  // Mirror directions inward toward map center
+  const mx = gx <= COLS / 2 ? 1 : -1;
+  const my = gy <= ROWS / 2 ? 1 : -1;
+  return new Set([
     `${gx},${gy}`,
-    `${gx+1},${gy}`, `${gx+2},${gy}`,
-    `${gx},${gy+1}`, `${gx},${gy+2}`,
-    `${gx+1},${gy+1}`,
-  ])
-);
+    `${gx+mx},${gy}`, `${gx+mx*2},${gy}`, 
+    `${gx},${gy+my}`, `${gx},${gy+my*2}`, 
+    `${gx+mx},${gy+my}`, 
+  ]);
+});
 
 function gKey(gx: number, gy: number) { return `${gx},${gy}`; }
 
@@ -59,9 +62,9 @@ export class GameEngine {
       for (let x = 0; x < COLS; x++) {
         if (x === 0 || y === 0 || x === COLS - 1 || y === ROWS - 1) {
           grid[y][x] = TileType.WALL;
-        } else if (x % 2 === 0 && y % 2 === 0) {
+        } else if (x % 3 === 0 && y % 3 === 0) {
           grid[y][x] = TileType.WALL;
-        } else if (!safe.has(gKey(x, y)) && Math.random() < 0.55) {
+        } else if (!safe.has(gKey(x, y)) && Math.random() < 0.43) {
           grid[y][x] = TileType.BRICK;
         } else {
           grid[y][x] = TileType.FLOOR;

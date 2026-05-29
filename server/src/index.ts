@@ -95,6 +95,12 @@ io.on('connection', (socket: Socket<ClientToServerEvents, ServerToClientEvents>)
   console.log(`[+] Connected: ${socket.id}`);
 
   socket.on('room:join', (name: string) => {
+    
+    if (phase === 'playing') {
+      socket.emit('room:error', 'Game already in progress');
+      return;
+    }
+
     if (roomPlayers.size >= 4) {
       socket.emit('room:error', 'Room is full (max 4 players)');
       return;

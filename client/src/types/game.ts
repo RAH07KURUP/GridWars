@@ -1,7 +1,7 @@
 // ─── SHARED GAME TYPES (client copy) ─────────────────────────────────────
 
-export const COLS = 15;
-export const ROWS = 13;
+export const COLS = 16;
+export const ROWS = 16;
 export const TICK_MS = 50;
 
 export enum TileType {
