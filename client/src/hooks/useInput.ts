@@ -42,7 +42,7 @@ export function useInput(onInput: (input: PlayerInput) => void) {
 
       if (dx !== 0 || dy !== 0 || bomb) {
         onInputRef.current({ dx, dy, bomb });
-      } else if (k.has('Space') === false) {
+      } else {
         // send zero to keep player still / cancel movement
         onInputRef.current({ dx: 0, dy: 0, bomb: false });
       }
