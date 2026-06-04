@@ -118,3 +118,18 @@
   flex-direction: column;
   gap: 6px;
 }
+
+/* Auto-start countdown */
+.autoStart {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 10px;
+  color: #ffcc00;
+  text-shadow: 0 0 12px rgba(255,204,0,0.5);
+  margin-bottom: 14px;
+  animation: pulse 1s ease-in-out infinite alternate;
+}
+
+@keyframes pulse {
+  from { opacity: 0.7; }
+  to   { opacity: 1; }
+}

@@ -5,6 +5,8 @@ import { PlayerInput } from '@/types/game';
 export function useInput(onInput: (input: PlayerInput) => void) {
   const keys = useRef<Set<string>>(new Set());
   const bombUsed = useRef(false);
+  const flameUsed = useRef(false);
+  const webUsed = useRef(false);
   const rafRef = useRef<number>(0);
   const onInputRef = useRef(onInput);
   onInputRef.current = onInput;
@@ -14,11 +16,17 @@ export function useInput(onInput: (input: PlayerInput) => void) {
       if (['ArrowUp','ArrowDown','ArrowLeft','ArrowRight','Space','KeyW','KeyA','KeyS','KeyD'].includes(e.code)) {
         e.preventDefault();
       }
+      // Prevent browser default for Ctrl (avoid browser shortcuts while in-game)
+      if (e.code === 'ControlLeft' || e.code === 'ControlRight') {
+        e.preventDefault();
+      }
       keys.current.add(e.code);
     };
     const up = (e: KeyboardEvent) => {
       keys.current.delete(e.code);
       if (e.code === 'Space') bombUsed.current = false;
+      if (e.code === 'KeyF') flameUsed.current = false;
+      if (e.code === 'ControlLeft' || e.code === 'ControlRight') webUsed.current = false;
     };
 
     window.addEventListener('keydown', down);
@@ -40,11 +48,16 @@ export function useInput(onInput: (input: PlayerInput) => void) {
       const bomb = (k.has('Space') || k.has('KeyX')) && !bombUsed.current;
       if (bomb) bombUsed.current = true;
 
-      if (dx !== 0 || dy !== 0 || bomb) {
-        onInputRef.current({ dx, dy, bomb });
+      const flame = k.has('KeyF') && !flameUsed.current;
+      if (flame) flameUsed.current = true;
+
+      const web = (k.has('ControlLeft') || k.has('ControlRight')) && !webUsed.current;
+      if (web) webUsed.current = true;
+
+      if (dx !== 0 || dy !== 0 || bomb || flame || web) {
+        onInputRef.current({ dx, dy, bomb, flame, web });
       } else {
-        // send zero to keep player still / cancel movement
-        onInputRef.current({ dx: 0, dy: 0, bomb: false });
+        onInputRef.current({ dx: 0, dy: 0, bomb: false, flame: false, web: false });
       }
     };
 
@@ -56,9 +69,7 @@ export function useInput(onInput: (input: PlayerInput) => void) {
     };
   }, []);
 
-  // Touch controls setter (used by TouchPad component)
   const setTouchDir = useCallback((dx: number, dy: number) => {
-    // Inject virtual direction
     if (dx < 0) { keys.current.add('ArrowLeft'); keys.current.delete('ArrowRight'); }
     else if (dx > 0) { keys.current.add('ArrowRight'); keys.current.delete('ArrowLeft'); }
     else { keys.current.delete('ArrowLeft'); keys.current.delete('ArrowRight'); }
@@ -73,5 +84,15 @@ export function useInput(onInput: (input: PlayerInput) => void) {
     setTimeout(() => { keys.current.delete('Space'); bombUsed.current = false; }, 100);
   }, []);
 
-  return { setTouchDir, pressBomb };
+  const pressFlame = useCallback(() => {
+    keys.current.add('KeyF');
+    setTimeout(() => { keys.current.delete('KeyF'); flameUsed.current = false; }, 100);
+  }, []);
+
+  const pressWeb = useCallback(() => {
+    keys.current.add('ControlLeft');
+    setTimeout(() => { keys.current.delete('ControlLeft'); webUsed.current = false; }, 100);
+  }, []);
+
+  return { setTouchDir, pressBomb, pressFlame, pressWeb };
 }

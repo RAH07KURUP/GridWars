@@ -1,4 +1,5 @@
 .hud {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -30,17 +31,37 @@
   color: #ffcc00;
 }
 
-.center { flex: 1; text-align: center; }
+.center {
+  flex: 1;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+}
 
 .enemies {
   font-size: 9px;
   color: #ff6644;
 }
 
+.trapped {
+  font-size: 8px;
+  color: #dd88ff;
+  animation: pulse 0.6s ease-in-out infinite alternate;
+}
+
+@keyframes pulse {
+  from { opacity: 0.6; }
+  to   { opacity: 1; }
+}
+
 .powerupRow {
   display: flex;
-  gap: 8px;
+  flex-wrap: wrap;
+  gap: 6px;
   align-items: center;
+  justify-content: flex-end;
 }
 
 .pu {
@@ -50,4 +71,32 @@
   padding: 3px 6px;
   border: 1px solid #222;
   border-radius: 2px;
+}
+
+/* Floating notifications */
+.floatingArea {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  pointer-events: none;
+  z-index: 50;
+}
+
+.floatingMsg {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 11px;
+  text-shadow: 0 0 8px currentColor;
+  animation: floatUp 2s ease-out forwards;
+  white-space: nowrap;
+}
+
+@keyframes floatUp {
+  0%   { opacity: 1; transform: translateY(0); }
+  70%  { opacity: 1; }
+  100% { opacity: 0; transform: translateY(-36px); }
 }

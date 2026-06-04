@@ -9,7 +9,7 @@ import TouchPad from './TouchPad';
 import styles from './GameScreen.module.css';
 
 interface Props {
-  onSendInput: (input: { dx: number; dy: number; bomb: boolean }) => void;
+  onSendInput: (input: { dx: number; dy: number; bomb: boolean; flame: boolean; web: boolean }) => void;
 }
 
 export default function GameScreen({ onSendInput }: Props) {
@@ -20,7 +20,7 @@ export default function GameScreen({ onSendInput }: Props) {
     setIsMobile('ontouchstart' in window);
   }, []);
 
-  const { setTouchDir, pressBomb } = useInput(onSendInput);
+  const { setTouchDir, pressBomb, pressFlame, pressWeb } = useInput(onSendInput);
 
   if (!gameState) return null;
 
@@ -35,7 +35,12 @@ export default function GameScreen({ onSendInput }: Props) {
           )}
         </div>
         {isMobile && (
-          <TouchPad onDir={setTouchDir} onBomb={pressBomb} />
+          <TouchPad
+            onDir={setTouchDir}
+            onBomb={pressBomb}
+            onFlame={pressFlame}
+            onWeb={pressWeb}
+          />
         )}
       </div>
     </div>

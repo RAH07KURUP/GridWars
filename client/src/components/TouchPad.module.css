@@ -38,18 +38,45 @@
 .left  { top: 44px; left: 0; }
 .right { top: 44px; right: 0; }
 
-.bombBtn {
-  width: 70px;
-  height: 70px;
-  background: #3a0a0a;
-  border: 2px solid #ff4444;
+/* Action buttons column */
+.actionBtns {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+}
+
+.bombBtn, .flameBtn, .webBtn {
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
-  font-size: 28px;
+  font-size: 24px;
   cursor: pointer;
   touch-action: none;
   -webkit-tap-highlight-color: transparent;
-  box-shadow: 0 0 20px rgba(255,68,68,0.3);
   transition: transform 0.1s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.bombBtn:active { transform: scale(0.92); background: #550000; }
+.bombBtn {
+  background: #3a0a0a;
+  border: 2px solid #ff4444;
+  box-shadow: 0 0 16px rgba(255,68,68,0.3);
+}
+.bombBtn:active  { transform: scale(0.92); background: #550000; }
+
+.flameBtn {
+  background: #2a1500;
+  border: 2px solid #ff9900;
+  box-shadow: 0 0 16px rgba(255,153,0,0.3);
+}
+.flameBtn:active { transform: scale(0.92); background: #3a2000; }
+
+.webBtn {
+  background: #1a0a2e;
+  border: 2px solid #cc88ff;
+  box-shadow: 0 0 16px rgba(204,136,255,0.3);
+}
+.webBtn:active   { transform: scale(0.92); background: #2a1050; }

@@ -215,16 +215,10 @@ export class GameEngine {
         // Can move
         if (dx !== 0 || dy !== 0) {
           this.movePlayer(player, dx, dy);
-          // Only update facing direction on pure cardinal input (not diagonals).
-          // On diagonals, keep the last cleanly-faced direction so flame/web
-          // fire where the player last intentionally aimed.
-          const isDiagonal = dx !== 0 && dy !== 0;
-          if (!isDiagonal) {
-            if (dx < 0) player.dir = 'left';
-            else if (dx > 0) player.dir = 'right';
-            else if (dy < 0) player.dir = 'up';
-            else if (dy > 0) player.dir = 'down';
-          }
+          if (dx < 0) player.dir = 'left';
+          else if (dx > 0) player.dir = 'right';
+          else if (dy < 0) player.dir = 'up';
+          else if (dy > 0) player.dir = 'down';
         }
         // Bombs disabled while trapped
         if (bomb) this.placeBomb(player);

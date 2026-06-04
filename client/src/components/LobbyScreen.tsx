@@ -11,6 +11,7 @@ interface Props {
 export default function LobbyScreen({ room, myPlayerId, onToggleReady }: Props) {
   const me = room.players.find(p => p.id === myPlayerId);
   const allReady = room.players.length >= 2 && room.players.every(p => p.ready);
+  const autoStartIn = room.autoStartIn;
 
   return (
     <div className={styles.wrap}>
@@ -20,6 +21,13 @@ export default function LobbyScreen({ room, myPlayerId, onToggleReady }: Props) 
           {room.players.length}/{room.maxPlayers} PLAYERS &nbsp;·&nbsp;
           {allReady ? '🟢 STARTING...' : 'NEED 2+ READY'}
         </p>
+
+        {/* Auto-start countdown */}
+        {autoStartIn !== null && autoStartIn > 0 && (
+          <div className={styles.autoStart}>
+            ⏱ AUTO-START IN {autoStartIn}s
+          </div>
+        )}
 
         <div className={styles.playerList}>
           {room.players.map((p, i) => (
@@ -56,7 +64,13 @@ export default function LobbyScreen({ room, myPlayerId, onToggleReady }: Props) 
         <div className={styles.controls}>
           <div>⬆⬇⬅➡ / WASD — MOVE</div>
           <div>SPACE — DROP BOMB</div>
-          <div>Destroy all enemies to win · +500 pts for victory</div>
+          <div>F — THROW FLAME </div>
+          <div>CTRL — SHOOT WEB (costs 50 pts)</div>
+          <div>Collect Flame Throwers to increase your flame weapons</div>
+          <div> and blast range of Bombs</div>
+          <div>Each 250 point will automatically increment</div>
+          <div>your flame capacity by 1 (max 10)</div>
+          <div>Destroy all enemies to win +500 pts for victory</div>
         </div>
       </div>
     </div>

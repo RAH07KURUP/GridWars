@@ -35,6 +35,9 @@ export interface Player extends Position {
   dir: 'up' | 'down' | 'left' | 'right';
   invincible: number;
   score: number;
+  throwableFlames: number;  // NEW
+  activeFlames: number;     // NEW
+  trappedTicks: number;     // NEW
 }
 
 export interface Bomb {
@@ -65,14 +68,53 @@ export interface Powerup {
   type: PowerupType;
 }
 
+// NEW
+export interface ThrownFlame {
+  id: string;
+  ownerId: string;
+  x: number;
+  y: number;
+  gx: number;
+  gy: number;
+  dx: number;
+  dy: number;
+  moveTick: number;
+}
+
+// NEW
+export interface WebProjectile {
+  id: string;
+  ownerId: string;
+  x: number;
+  y: number;
+  gx: number;
+  gy: number;
+  dx: number;
+  dy: number;
+  moveTick: number;
+}
+
+// NEW
+export interface Web {
+  id: string;
+  ownerId: string;
+  gx: number;
+  gy: number;
+  timer: number;
+}
+
 export interface GameState {
   grid: TileType[][];
   players: Player[];
   bombs: Bomb[];
   explosions: Explosion[];
   powerups: Powerup[];
+  thrownFlames: ThrownFlame[];   // NEW
+  webProjectiles: WebProjectile[]; // NEW
+  webs: Web[];                    // NEW
   tick: number;
   phase: 'lobby' | 'playing' | 'over';
+  autoStartTick: number | null;
 }
 
 export interface GameOverData {
@@ -85,6 +127,7 @@ export interface RoomInfo {
   players: { id: string; name: string; color: string; ready: boolean }[];
   phase: 'lobby' | 'playing' | 'over';
   maxPlayers: number;
+  autoStartIn: number | null; // NEW: seconds until auto-start
 }
 
 export interface ServerToClientEvents {
@@ -106,7 +149,10 @@ export interface PlayerInput {
   dx: number;
   dy: number;
   bomb: boolean;
+  flame: boolean;  // NEW
+  web: boolean;    // NEW
 }
 
 export const PLAYER_COLORS = ['#44aaff', '#ff6633', '#44ff88', '#ff44cc'];
 export const TILE_SIZE = 48;
+export const INVINCIBILITY_TICKS = 140;
