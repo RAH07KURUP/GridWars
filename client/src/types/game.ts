@@ -135,6 +135,7 @@ export interface ServerToClientEvents {
   'game:start': (state: GameState) => void;
   'game:over': (data: GameOverData) => void;
   'room:update': (room: RoomInfo) => void;
+  'room:countdown': (data: { seconds: number }) => void;
   'room:error': (msg: string) => void;
   'player:assign': (data: { playerId: string; color: string }) => void;
 }

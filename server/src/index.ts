@@ -127,19 +127,28 @@ function forceStartGame() {
     phase = 'over';
     io.to(ROOM_ID).emit('game:over', data);
     broadcastRoomInfo();
-    // Auto reset to lobby after 8s
-    setTimeout(() => {
-      phase = 'lobby';
-      roomPlayers.forEach(rp => { rp.ready = false; });
-      engine = new GameEngine();
-      for (const rp of roomPlayers.values()) {
-        engine.addPlayer(rp.playerId, rp.name);
+
+    // Emit countdown ticks every second for 8s, then reset to lobby
+    const RETURN_SECS = 8;
+    let remaining = RETURN_SECS;
+    io.to(ROOM_ID).emit('room:countdown', { seconds: remaining });
+    const countdownInterval = setInterval(() => {
+      remaining--;
+      io.to(ROOM_ID).emit('room:countdown', { seconds: remaining });
+      if (remaining <= 0) {
+        clearInterval(countdownInterval);
+        phase = 'lobby';
+        roomPlayers.forEach(rp => { rp.ready = false; });
+        engine = new GameEngine();
+        for (const rp of roomPlayers.values()) {
+          engine.addPlayer(rp.playerId, rp.name);
+        }
+        disconnectedDuringGame.clear();
+        broadcastRoomInfo();
+        // Re-schedule auto-start if enough players are still in the room
+        if (roomPlayers.size >= 2) scheduleAutoStart();
       }
-      disconnectedDuringGame.clear();
-      broadcastRoomInfo();
-      // Re-schedule auto-start if enough players are still in the room
-      if (roomPlayers.size >= 2) scheduleAutoStart();
-    }, 8000);
+    }, 1000);
   });
 
   io.to(ROOM_ID).emit('game:start', engine.state);

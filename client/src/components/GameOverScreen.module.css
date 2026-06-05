@@ -11,7 +11,7 @@
 
 @keyframes fadeIn {
   from { opacity: 0; transform: scale(0.95); }
-  to { opacity: 1; transform: scale(1); }
+  to   { opacity: 1; transform: scale(1); }
 }
 
 .card {
@@ -30,8 +30,8 @@
 }
 
 @keyframes pop {
-  0% { transform: scale(0); }
-  60% { transform: scale(1.2); }
+  0%   { transform: scale(0); }
+  60%  { transform: scale(1.2); }
   100% { transform: scale(1); }
 }
 
@@ -42,8 +42,9 @@
   text-shadow: 0 0 20px currentColor;
 }
 
+/* ── Scoreboard ────────────────────────────────────────────────────────── */
 .scoreboard {
-  margin-bottom: 20px;
+  margin-bottom: 24px;
   border: 1px solid #1a1a2e;
   overflow: hidden;
 }
@@ -69,7 +70,9 @@
   font-family: 'Press Start 2P', monospace;
   font-size: 8px;
   color: #555;
-  width: 24px;
+  width: 28px;
+  text-align: center;
+  flex-shrink: 0;
 }
 
 .scoreName {
@@ -85,8 +88,53 @@
   color: #ffcc00;
 }
 
-.returning {
+/* ── 8-bit block deloader ──────────────────────────────────────────────── */
+.returnWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.returnLabel {
   font-family: 'Press Start 2P', monospace;
-  font-size: 7px;
+  font-size: 6px;
   color: #333;
+  letter-spacing: 1px;
+}
+
+.blocks {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.block {
+  width: 18px;
+  height: 18px;
+  image-rendering: pixelated;
+  transition: background 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
+}
+
+/* Filled block */
+.block[data-filled='true'] {
+  background: #44aaff;
+  box-shadow: 0 0 6px rgba(68,170,255,0.7), inset 0 1px 0 rgba(255,255,255,0.2);
+  transform: scale(1);
+}
+
+/* Empty block — ghost outline */
+.block[data-filled='false'] {
+  background: transparent;
+  box-shadow: none;
+  border: 1px solid #1a1a2e;
+  transform: scale(0.75);
+}
+
+.returnSecs {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 9px;
+  color: #44aaff;
+  text-shadow: 0 0 8px rgba(68,170,255,0.5);
+  min-width: 24px;
 }

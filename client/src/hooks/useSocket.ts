@@ -14,7 +14,7 @@ export function useSocket() {
   const socketRef = useRef<GameSocket | null>(null);
   const {
     setConnected, setPlayerId, setRoom,
-    setGameState, setGameOver, setError,
+    setGameState, setGameOver, setLobbyCountdown, setError,
     setScreen,
   } = useGameStore();
 
@@ -69,7 +69,12 @@ export function useSocket() {
 
     socket.on('game:over', (data) => {
       setGameOver(data);
+      setLobbyCountdown(8);
       setScreen('over');
+    });
+
+    socket.on('room:countdown', ({ seconds }) => {
+      setLobbyCountdown(seconds);
     });
 
     socket.connect();
@@ -77,7 +82,7 @@ export function useSocket() {
     return () => {
       // Don't disconnect on unmount (keep persistent)
     };
-  }, [setConnected, setPlayerId, setRoom, setGameState, setGameOver, setError, setScreen]);
+  }, [setConnected, setPlayerId, setRoom, setGameState, setGameOver, setLobbyCountdown, setError, setScreen]);
 
   const joinRoom = useCallback((name: string) => {
     socketRef.current?.emit('room:join', name);
